@@ -3,6 +3,7 @@ package eu.unicredit.reactivestreams.kafka;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 public class KafkaStream {
@@ -17,7 +18,9 @@ public class KafkaStream {
         return publisher(topic, DEFAULT_TIMEOUT);
     }
     public <K,V> KafkaPublisher<K,V> publisher(String topic, long timeout) {
-        return new KafkaPublisher<>(new KafkaConsumer<K, V>(properties), timeout);
+        final KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties);
+        consumer.subscribe(Arrays.asList(topic));
+        return new KafkaPublisher<>(consumer, timeout);
     }
     public <K,V> KafkaSubscriber<K,V> subscriber(String topic) {
         return new KafkaSubscriber<>(new KafkaProducer<K, V>(properties));
