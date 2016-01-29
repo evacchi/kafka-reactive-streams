@@ -38,14 +38,19 @@ public class KafkaPublisher<K,V> implements Publisher<ConsumerRecord<K,V>> {
 
     public void next(long n) {
         try {
+            System.out.println(n);
             while (n > 0) {
                 if (this.outstanding.hasNext()) {
                     subscriber.onNext(this.outstanding.next());
                     n--;
                 } else {
+                    System.out.println("no outstanding");
                     this.outstanding = requestMore();
                 }
             }
+
+            System.out.println("end");
+
         } catch (Throwable t) { subscriber.onError(t); }
     }
 }
