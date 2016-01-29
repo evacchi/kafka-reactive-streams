@@ -5,6 +5,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.concurrent.Executors;
 
 public class KafkaStream {
     private static final long DEFAULT_TIMEOUT = 100;
@@ -20,7 +21,7 @@ public class KafkaStream {
     public <K,V> KafkaPublisher<K,V> publisher(String topic, long timeout) {
         final KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Arrays.asList(topic));
-        return new KafkaPublisher<>(consumer, timeout);
+        return new KafkaPublisher<>(consumer, timeout, Executors.newSingleThreadExecutor());
     }
     public <K,V> KafkaSubscriber<K,V> subscriber(String topic) {
         return new KafkaSubscriber<>(new KafkaProducer<K, V>(properties));
