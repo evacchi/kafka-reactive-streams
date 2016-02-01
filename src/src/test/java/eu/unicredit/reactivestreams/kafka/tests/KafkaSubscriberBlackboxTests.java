@@ -14,9 +14,9 @@ import org.testng.annotations.Test;
 import java.util.Random;
 
 @Test
-public class KafkaSubscriberTests extends SubscriberBlackboxVerification<ProducerRecord<Long,Long>> {
+public class KafkaSubscriberBlackboxTests extends SubscriberBlackboxVerification<ProducerRecord<Long,Long>> {
     final MockProducer<Long, Long> mockProducer;
-    public KafkaSubscriberTests() {
+    public KafkaSubscriberBlackboxTests() {
         super(new TestEnvironment());
         mockProducer = new MockProducer<Long, Long>(true, new LongSerializer(), new LongSerializer());
     }
