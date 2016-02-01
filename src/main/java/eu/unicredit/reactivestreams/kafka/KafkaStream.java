@@ -28,7 +28,6 @@ public class KafkaStream {
     public <K,V> KafkaPublisher<K,V> publisher(String topic, long timeout) {
         final KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(topic));
-        consumer.seekToEnd();
         return new KafkaPublisher<>(consumer, timeout, executorSupplier.get());
     }
 

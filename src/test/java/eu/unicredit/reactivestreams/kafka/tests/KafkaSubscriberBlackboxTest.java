@@ -15,9 +15,9 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 
 @Test
-public class KafkaSubscriberBlackboxTests extends SubscriberBlackboxVerification<ProducerRecord<Long,Long>> {
+public class KafkaSubscriberBlackboxTest extends SubscriberBlackboxVerification<ProducerRecord<Long,Long>> {
     final MockProducer<Long, Long> mockProducer;
-    public KafkaSubscriberBlackboxTests() {
+    public KafkaSubscriberBlackboxTest() {
         super(new TestEnvironment());
         mockProducer = new MockProducer<Long, Long>(true, new LongSerializer(), new LongSerializer());
     }

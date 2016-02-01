@@ -20,12 +20,12 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 
 @Test
-public class KafkaPublisherTests extends PublisherVerification<ConsumerRecord<Long, Double>> {
+public class KafkaPublisherTest extends PublisherVerification<ConsumerRecord<Long, Double>> {
 
     MockConsumer<Long,Double> mockConsumer;
     TopicPartition topicPartition = new TopicPartition("topic", 0);
 
-    public KafkaPublisherTests() {
+    public KafkaPublisherTest() {
         super(new TestEnvironment());
     }
 
@@ -34,7 +34,7 @@ public class KafkaPublisherTests extends PublisherVerification<ConsumerRecord<Lo
     }
 
 
-    public KafkaPublisherTests(final TestEnvironment env) {
+    public KafkaPublisherTest(final TestEnvironment env) {
         super(env);
     }
 

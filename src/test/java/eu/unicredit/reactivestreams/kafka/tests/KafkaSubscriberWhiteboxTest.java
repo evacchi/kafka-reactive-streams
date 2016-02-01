@@ -14,9 +14,9 @@ import java.util.Random;
 import java.util.concurrent.Executors;
 
 @Test
-public class KafkaSubscriberWhiteboxTests extends SubscriberWhiteboxVerification<ProducerRecord<Long,Long>> {
+public class KafkaSubscriberWhiteboxTest extends SubscriberWhiteboxVerification<ProducerRecord<Long,Long>> {
     final MockProducer<Long, Long> mockProducer;
-    public KafkaSubscriberWhiteboxTests() {
+    public KafkaSubscriberWhiteboxTest() {
         super(new TestEnvironment());
         mockProducer = new MockProducer<Long, Long>(true, new LongSerializer(), new LongSerializer());
     }
