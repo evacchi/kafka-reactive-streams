@@ -9,13 +9,15 @@ import java.util.concurrent.Executor;
 
 public class KafkaSubscriber<K, V> extends AsyncSubscriber<ProducerRecord<K,V>> {
     private final Producer<K,V> kafkaProducer;
-    private Subscription subscription;
 
-    public KafkaSubscriber(final Producer<K, V> kafkaProducer, Executor executor) {
+    public KafkaSubscriber(final Producer<K, V> kafkaProducer, final Executor executor) {
         super(executor);
         this.kafkaProducer = kafkaProducer;
     }
 
-    @Override protected boolean whenNext(final ProducerRecord<K, V> element) { return true; }
+    @Override protected boolean whenNext(final ProducerRecord<K, V> element) {
+        kafkaProducer.send(element);
+        return true;
+    }
 }
 
