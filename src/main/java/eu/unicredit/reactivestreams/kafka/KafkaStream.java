@@ -11,11 +11,13 @@ import java.util.function.Supplier;
 
 public class KafkaStream {
     private static final long DEFAULT_TIMEOUT = 100;
+    public static KafkaStream of(Properties props) { return new KafkaStream(props); }
 
     private final Properties properties;
     private Supplier<? extends Executor> executorSupplier = Executors::newSingleThreadExecutor;
 
-    public KafkaStream(final Properties properties) {
+
+    private KafkaStream(final Properties properties) {
         this.properties = properties;
     }
     public KafkaStream withExecutor(Supplier<? extends Executor> executor) { this.executorSupplier = executor; return this; }
@@ -30,7 +32,7 @@ public class KafkaStream {
         return new KafkaPublisher<>(consumer, timeout, executorSupplier.get());
     }
 
-    public <K,V> KafkaSubscriber<K,V> subscriber(String topic) {
+    public <K,V> KafkaSubscriber<K,V> subscriber() {
         return new KafkaSubscriber<>(new KafkaProducer<>(properties), executorSupplier.get());
     }
 }
