@@ -8,6 +8,12 @@ import org.reactivestreams.Subscriber;
 import java.util.Iterator;
 import java.util.concurrent.Executor;
 
+/**
+ * A {@link KafkaPublisher} republishes a Kafka topic as a stream of {@code ConsumerRecord<K,V>}
+ *
+ * @param <K> type of the Key in the ConsumerRecord
+ * @param <V> type of the Value in the ConsumerRecord
+ */
 public class KafkaPublisher<K,V> implements Publisher<ConsumerRecord<K,V>> {
     private final AsyncIterablePublisher<ConsumerRecord<K,V>> delegate;
     private final Consumer<K, V> consumer;
