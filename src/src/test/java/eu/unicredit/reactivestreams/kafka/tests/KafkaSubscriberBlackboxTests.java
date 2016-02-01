@@ -12,6 +12,7 @@ import org.reactivestreams.tck.TestEnvironment;
 import org.testng.annotations.Test;
 
 import java.util.Random;
+import java.util.concurrent.Executors;
 
 @Test
 public class KafkaSubscriberBlackboxTests extends SubscriberBlackboxVerification<ProducerRecord<Long,Long>> {
@@ -30,6 +31,6 @@ public class KafkaSubscriberBlackboxTests extends SubscriberBlackboxVerification
 
     @Override
     public Subscriber<ProducerRecord<Long, Long>> createSubscriber() {
-        return new KafkaSubscriber<Long,Long>(mockProducer);
+        return new KafkaSubscriber<Long,Long>(mockProducer, Executors.newSingleThreadExecutor());
     }
 }

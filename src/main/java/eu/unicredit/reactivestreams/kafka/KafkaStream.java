@@ -24,6 +24,6 @@ public class KafkaStream {
         return new KafkaPublisher<>(consumer, timeout, Executors.newSingleThreadExecutor());
     }
     public <K,V> KafkaSubscriber<K,V> subscriber(String topic) {
-        return new KafkaSubscriber<>(new KafkaProducer<K, V>(properties));
+        return new KafkaSubscriber<>(new KafkaProducer<>(properties), Executors.newSingleThreadExecutor());
     }
 }

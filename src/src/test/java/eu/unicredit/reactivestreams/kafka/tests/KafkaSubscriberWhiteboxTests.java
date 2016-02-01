@@ -11,6 +11,7 @@ import org.reactivestreams.tck.TestEnvironment;
 import org.testng.annotations.Test;
 
 import java.util.Random;
+import java.util.concurrent.Executors;
 
 @Test
 public class KafkaSubscriberWhiteboxTests extends SubscriberWhiteboxVerification<ProducerRecord<Long,Long>> {
@@ -29,11 +30,11 @@ public class KafkaSubscriberWhiteboxTests extends SubscriberWhiteboxVerification
 
     @Override
     public Subscriber<ProducerRecord<Long,Long>> createSubscriber(final WhiteboxSubscriberProbe<ProducerRecord<Long,Long>> probe) {
-        return new KafkaSubscriber<Long,Long>(mockProducer) {
+        return new Subscriber<ProducerRecord<Long, Long>>() {
+            KafkaSubscriber<Long, Long> delegate = new KafkaSubscriber<>(mockProducer, Executors.newSingleThreadExecutor());
             @Override
             public void onSubscribe(final Subscription s) {
-                super.onSubscribe(s);
-
+                delegate.onSubscribe(s);
                 probe.registerOnSubscribe(new SubscriberPuppet() {
                     @Override
                     public void triggerRequest(long elements) {
@@ -48,20 +49,20 @@ public class KafkaSubscriberWhiteboxTests extends SubscriberWhiteboxVerification
             }
 
             @Override
-            public void onNext(ProducerRecord<Long,Long> element) {
-                super.onNext(element);
-                probe.registerOnNext(element);
+            public void onNext(final ProducerRecord<Long, Long> el) {
+                delegate.onNext(el);
+                probe.registerOnNext(el);
             }
 
             @Override
-            public void onError(Throwable cause) {
-                super.onError(cause);
-                probe.registerOnError(cause);
+            public void onError(final Throwable t) {
+                delegate.onError(t);
+                probe.registerOnError(t);
             }
 
             @Override
             public void onComplete() {
-                super.onComplete();
+                delegate.onComplete();
                 probe.registerOnComplete();
             }
         };

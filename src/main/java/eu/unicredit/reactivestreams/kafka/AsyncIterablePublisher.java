@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  *
  * NOTE: this is from org.reactivestreams.example. Code is licensed under CC0.
- *       Class has been made package-private, since this is only an implementation detail.
+ *       Class has been made package-private, since this is only an implementation detail. -- evacchi
  *
  *
  * AsyncIterablePublisher is an implementation of Reactive Streams `Publisher`
