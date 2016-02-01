@@ -3,7 +3,31 @@
 A lightweight [Reactive Streams](https://github.com/reactive-streams/reactive-streams-jvm)-compliant
 connector for Kafka.
 
-Example Usage:
+## Dependencies
+
+You can currently depend on `kafka-reactive-streams` using Jitpack.
+E.g., with Maven:
+
+```xml
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        ...
+        <dependency>
+            <groupId>com.github.unicredit</groupId>
+            <artifactId>kafka-reactive-streams</artifactId>
+            <version>0.1</version>
+        </dependency>
+        ...
+    </dependencies>
+```
+
+## Example Usage:
 
 ```java
 Properties props = new Properties()
