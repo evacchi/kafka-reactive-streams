@@ -21,6 +21,8 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -41,7 +43,7 @@ import java.util.function.Supplier;
  * e.g., a subscriber with custom executor and 1000ms poll interval:
  *
  * <code><pre>
- *     KafkaStream.of(props)
+ *     KafkaStream.of(cfgs)
  *          .withExecutor(Executors::newCachedThreadPool)
  *          .publisher("my-topic", 1000)
  * </pre></code>
@@ -53,14 +55,20 @@ import java.util.function.Supplier;
 public class KafkaStream {
     private static final long DEFAULT_TIMEOUT = 100;
     /**
-     * Return an instance of the builder with the given Kafka config properties
+     * Return an instance of the builder with the given Kafka configs
      */
-    public static KafkaStream of(Properties props) { return new KafkaStream(props); }
+    public static KafkaStream of(final Map<String, Object> cfg) { return new KafkaStream(cfg); }
+    public static KafkaStream of(final Properties props) {
+        final Map<String, Object> cfg = new HashMap<>();
+        for (Map.Entry<Object, Object> kv : props.entrySet()) {
+            cfg.put(kv.getKey().toString(), kv.getValue());
+        }
+        return new KafkaStream(cfg); }
 
-    private final Properties properties;
+    private final Map<String, Object> config;
     private Supplier<? extends Executor> executorSupplier = Executors::newSingleThreadExecutor;
 
-    private KafkaStream(final Properties properties) { this.properties = properties; }
+    private KafkaStream(final Map<String, Object> cfg) { this.config = cfg; }
 
     /**
      * Provide a different executor constructor; default is java.util.concurrent.Executors::newSingleThreadExecutor
@@ -82,12 +90,12 @@ public class KafkaStream {
      * @param <V> value type
      */
     public <K,V> KafkaPublisher<K,V> publisher(String topic, long timeout) {
-        final KafkaConsumer<K, V> consumer = new KafkaConsumer<>(properties);
+        final KafkaConsumer<K, V> consumer = new KafkaConsumer<>(config);
         consumer.subscribe(Collections.singletonList(topic));
         return new KafkaPublisher<>(consumer, timeout, executorSupplier.get());
     }
 
     public <K,V> KafkaSubscriber<K,V> subscriber() {
-        return new KafkaSubscriber<>(new KafkaProducer<>(properties), executorSupplier.get());
+        return new KafkaSubscriber<>(new KafkaProducer<>(config), executorSupplier.get());
     }
 }
