@@ -21,7 +21,7 @@ E.g., with Maven:
         <dependency>
             <groupId>com.github.unicredit</groupId>
             <artifactId>kafka-reactive-streams</artifactId>
-            <version>0.1</version>
+            <version>0.1.1</version>
         </dependency>
         ...
     </dependencies>
